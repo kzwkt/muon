@@ -8,6 +8,7 @@
 #import <ReactiveCocoa/RACSignal.h>
 #import <ReactiveCocoa/NSObject+RACPropertySubscribing.h>
 #import <Squirrel/Squirrel.h>
+#include <sys/xattr.h>
 
 #include "base/bind.h"
 #include "base/time/time.h"
@@ -90,6 +91,9 @@ void AutoUpdater::CheckForUpdates() {
       subscribeNext:^(SQRLDownloadedUpdate *downloadedUpdate) {
         if (downloadedUpdate) {
           g_update_available = true;
+          NSBundle *downloadBundle = downloadedUpdate.bundle;
+          NSString *bundlePath = [downloadBundle resourcePath];
+          removexattr([bundlePath UTF8String], "com.apple.quarantine", 0);
           SQRLUpdate* update = downloadedUpdate.update;
           // There is a new update that has been downloaded.
           delegate->OnUpdateDownloaded(
