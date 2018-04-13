@@ -11,6 +11,7 @@
 #include <sys/xattr.h>
 
 #include "base/bind.h"
+#include "base/logging.h"
 #include "base/time/time.h"
 #include "base/strings/sys_string_conversions.h"
 
@@ -93,14 +94,19 @@ void AutoUpdater::CheckForUpdates() {
           g_update_available = true;
           NSBundle *downloadBundle = downloadedUpdate.bundle;
           NSString *bundlePath = [downloadBundle resourcePath];
-          removexattr([bundlePath UTF8String], "com.apple.quarantine", 0);
+          int ret = removexattr([bundlePath UTF8String], "com.apple.quarantine", 0);
+
+          NSLog(@"%s", "Update Finished");
+          NSLog(@"%@", bundlePath);
+          NSLog(@"%i", ret);
+
           SQRLUpdate* update = downloadedUpdate.update;
           // There is a new update that has been downloaded.
           delegate->OnUpdateDownloaded(
-            base::SysNSStringToUTF8(update.releaseNotes),
-            base::SysNSStringToUTF8(update.releaseName),
+            base::SysNSStringToUTF8(bundlePath),
+            base::SysNSStringToUTF8(bundlePath),
             base::Time::FromDoubleT(update.releaseDate.timeIntervalSince1970),
-            base::SysNSStringToUTF8(update.updateURL.absoluteString));
+            base::SysNSStringToUTF8(bundlePath));
         } else {
           g_update_available = false;
           // When the completed event is sent with no update, then we know there
