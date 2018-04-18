@@ -357,8 +357,12 @@ void BrowserProcessImpl::PreMainMessageLoopRun() {
 resource_coordinator::TabManager* BrowserProcessImpl::GetTabManager() {
   DCHECK_CALLED_ON_VALID_SEQUENCE(sequence_checker_);
 #if defined(OS_WIN) || defined(OS_MACOSX) || defined(OS_LINUX)
-  if (!tab_manager_.get())
-    tab_manager_.reset(new resource_coordinator::GuestTabManager());
+  if (!tab_manager_) {
+    tab_manager_ = std::make_unique<resource_coordinator::GuestTabManager>();
+    tab_lifecycle_unit_source_ =
+        std::make_unique<resource_coordinator::TabLifecycleUnitSource>();
+    tab_lifecycle_unit_source_->AddObserver(tab_manager_.get());
+  }
   return tab_manager_.get();
 #else
   return nullptr;
