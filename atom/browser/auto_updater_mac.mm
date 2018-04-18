@@ -94,19 +94,19 @@ void AutoUpdater::CheckForUpdates() {
           g_update_available = true;
           NSBundle *downloadBundle = downloadedUpdate.bundle;
           NSString *bundlePath = [downloadBundle resourcePath];
-          int ret = removexattr([bundlePath UTF8String], "com.apple.quarantine", 0);
 
-          NSLog(@"%s", "Update Finished");
-          NSLog(@"%@", bundlePath);
-          NSLog(@"%i", ret);
+
+          NSRange appIndex = [bundlePath rangeOfString: @".app"];
+          NSString *appPath = [bundlePath substringWithRange: NSMakeRange (0, appIndex.location+4)];
+          removexattr([appPath UTF8String], "com.apple.quarantine", 0);
 
           SQRLUpdate* update = downloadedUpdate.update;
           // There is a new update that has been downloaded.
           delegate->OnUpdateDownloaded(
-            base::SysNSStringToUTF8(bundlePath),
-            base::SysNSStringToUTF8(bundlePath),
+            base::SysNSStringToUTF8(update.releaseNotes),
+            base::SysNSStringToUTF8(update.releaseName),
             base::Time::FromDoubleT(update.releaseDate.timeIntervalSince1970),
-            base::SysNSStringToUTF8(bundlePath));
+            base::SysNSStringToUTF8(update.updateURL.absoluteString));
         } else {
           g_update_available = false;
           // When the completed event is sent with no update, then we know there
