@@ -11,7 +11,6 @@
 #include <sys/xattr.h>
 
 #include "base/bind.h"
-#include "base/logging.h"
 #include "base/time/time.h"
 #include "base/strings/sys_string_conversions.h"
 
@@ -94,7 +93,6 @@ void AutoUpdater::CheckForUpdates() {
           g_update_available = true;
           NSBundle *downloadBundle = downloadedUpdate.bundle;
           NSString *bundlePath = [downloadBundle resourcePath];
-
 
           NSRange appIndex = [bundlePath rangeOfString: @".app"];
           NSString *appPath = [bundlePath substringWithRange: NSMakeRange (0, appIndex.location+4)];
