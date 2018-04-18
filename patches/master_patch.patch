@@ -1946,22 +1946,6 @@ index 715c533a2756506cc3151739fe458efd2dc5323d..30608c6852d0845566f2a05d620f6c86
          if (now - last_upload_attempt_time < kUploadAttemptIntervalSeconds) {
            database_->SkipReportUpload(
                report.uuid, Metrics::CrashSkippedReason::kUploadThrottled);
-diff --git a/third_party/widevine/cdm/stub/manifest.json b/third_party/widevine/cdm/stub/manifest.json
-index d466ccd1e02ed8c158fda545fe2175c135018da5..16ae2a357b21de66b1558939f9333b3c22e9cff2 100644
---- a/third_party/widevine/cdm/stub/manifest.json
-+++ b/third_party/widevine/cdm/stub/manifest.json
-@@ -24,6 +24,11 @@
-       "os": "mac",
-       "arch": "x64",
-       "sub_package_path": "_platform_specific/mac_x64/"
-+    },
-+    {
-+      "os": "linux",
-+      "arch": "x64",
-+      "sub_package_path": "_platform_specific/linux_x64/"
-     }
-   ]
- }
 diff --git a/ui/views/controls/menu/menu_controller.cc b/ui/views/controls/menu/menu_controller.cc
 index 83a1a0fc122efc76793fcda269d0fdd57aee10a3..0216723f7156db50c81ac2d0a952a2424fb963d2 100644
 --- a/ui/views/controls/menu/menu_controller.cc
