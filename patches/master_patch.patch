@@ -27,7 +27,7 @@ index e3d70e31083e2f2e137bcfbda271d2ab4fe2ed57..cdfa701757bb4e8a52df75bbf4c953a6
    // BEGIN USAGE THAT NEEDS TO BE FIXED.
    friend class ::chromeos::BlockingMethodCaller;  // http://crbug.com/125360
 diff --git a/build/config/BUILDCONFIG.gn b/build/config/BUILDCONFIG.gn
-index 38568003e4736cbadee04b66a1d44175eece3f51..f1e9c9449e09b79175be586027f19052cafe11ab 100644
+index 9e38ee0e592b64f2457dd48110aceafff95164cd..d3d67d38394c1234c1f3f93a76850165f4951ce2 100644
 --- a/build/config/BUILDCONFIG.gn
 +++ b/build/config/BUILDCONFIG.gn
 @@ -152,6 +152,8 @@ declare_args() {
@@ -39,7 +39,7 @@ index 38568003e4736cbadee04b66a1d44175eece3f51..f1e9c9449e09b79175be586027f19052
  }
  
  declare_args() {
-@@ -539,6 +541,14 @@ default_compiler_configs = [
+@@ -541,6 +543,14 @@ default_compiler_configs = [
    "//build/config/sanitizers:default_sanitizer_flags",
  ]
  
@@ -99,7 +99,7 @@ index f8eb453e400fd645a48f7d1ca2f92cdb2213ffd2..c4a63e44099cf1baa4f574cd29c126f0
    goma_prefix = ""
  }
 diff --git a/chrome/BUILD.gn b/chrome/BUILD.gn
-index 51bba141c5227622472ee3fd13afa2d85340b4a1..2a8aff35cc1808b4d4580643af2ca56d1e79fcc2 100644
+index 4304cc82494f57b7bbc4d1f3dff0fab96e30aef3..77130b344ba1e03e34e5faa752cd2590b8797869 100644
 --- a/chrome/BUILD.gn
 +++ b/chrome/BUILD.gn
 @@ -40,6 +40,11 @@ if (is_android) {
@@ -391,10 +391,10 @@ index 9f0003bc2d80d7c76ab9dd17393d0188fe1ac6fd..88d75d4091fb3dc282998a5d44e63cbf
    // content::NotificationObserver implementation.
    void Observe(int type,
 diff --git a/chrome/browser/resource_coordinator/tab_lifecycle_unit.cc b/chrome/browser/resource_coordinator/tab_lifecycle_unit.cc
-index ae5aaf93fc0e07fd6896cd33f702afd751b0041b..1b855ac47cb3fc796deb1bd69e888a0958d712a2 100644
+index ca9fcfec0fa390d68376c7a78338be3d12edc8fa..221d4885a6033ff6b01f1b7246a4642654aebb9b 100644
 --- a/chrome/browser/resource_coordinator/tab_lifecycle_unit.cc
 +++ b/chrome/browser/resource_coordinator/tab_lifecycle_unit.cc
-@@ -207,6 +207,19 @@ bool TabLifecycleUnitSource::TabLifecycleUnit::CanDiscard(
+@@ -202,6 +202,19 @@ bool TabLifecycleUnitSource::TabLifecycleUnit::CanDiscard(
    return true;
  }
  
@@ -414,7 +414,7 @@ index ae5aaf93fc0e07fd6896cd33f702afd751b0041b..1b855ac47cb3fc796deb1bd69e888a09
  bool TabLifecycleUnitSource::TabLifecycleUnit::Discard(
      DiscardReason discard_reason) {
    if (!tab_strip_model_ || IsDiscarded())
-@@ -224,7 +237,7 @@ bool TabLifecycleUnitSource::TabLifecycleUnit::Discard(
+@@ -219,7 +232,7 @@ bool TabLifecycleUnitSource::TabLifecycleUnit::Discard(
    create_params.initially_hidden =
        old_contents->GetVisibility() == content::Visibility::HIDDEN;
    content::WebContents* const null_contents =
@@ -423,7 +423,7 @@ index ae5aaf93fc0e07fd6896cd33f702afd751b0041b..1b855ac47cb3fc796deb1bd69e888a09
    // Copy over the state from the navigation controller to preserve the
    // back/forward history and to continue to display the correct title/favicon.
    //
-@@ -275,7 +288,8 @@ bool TabLifecycleUnitSource::TabLifecycleUnit::Discard(
+@@ -270,7 +283,8 @@ bool TabLifecycleUnitSource::TabLifecycleUnit::Discard(
    // TODO(jamescook): This breaks script connections with other tabs. Find a
    // different approach that doesn't do that, perhaps based on
    // RenderFrameProxyHosts.
@@ -434,10 +434,10 @@ index ae5aaf93fc0e07fd6896cd33f702afd751b0041b..1b855ac47cb3fc796deb1bd69e888a09
    SetState(State::DISCARDED);
    ++discard_count_;
 diff --git a/chrome/browser/resource_coordinator/tab_lifecycle_unit.h b/chrome/browser/resource_coordinator/tab_lifecycle_unit.h
-index 6fb7f50f4661c0d695920ee00cd1fbe330e0ddf7..8b452e7626986732caad283145b94ee9bdc3668e 100644
+index ae1fc02155c4c36f8f7015c052f58255933f88b5..d509c337c4df968df1bd9db0fdb56e30bcf9ef63 100644
 --- a/chrome/browser/resource_coordinator/tab_lifecycle_unit.h
 +++ b/chrome/browser/resource_coordinator/tab_lifecycle_unit.h
-@@ -93,6 +93,12 @@ class TabLifecycleUnitSource::TabLifecycleUnit
+@@ -89,6 +89,12 @@ class TabLifecycleUnitSource::TabLifecycleUnit
    bool IsDiscarded() const override;
    int GetDiscardCount() const override;
  
@@ -451,11 +451,11 @@ index 6fb7f50f4661c0d695920ee00cd1fbe330e0ddf7..8b452e7626986732caad283145b94ee9
    // Invoked when the state goes from DISCARDED to non-DISCARDED and vice-versa.
    void OnDiscardedStateChange();
 diff --git a/chrome/browser/resource_coordinator/tab_manager.h b/chrome/browser/resource_coordinator/tab_manager.h
-index 25dea18db1339ad6bf351870675bb1de15fcd60f..665366319856bc5ea4ca638e6d7ad78e1c5b924a 100644
+index 462ea07d0073906b1068316163b48ea1636488e3..efdfc49327693f964a17640dbd92f8e1f003a200 100644
 --- a/chrome/browser/resource_coordinator/tab_manager.h
 +++ b/chrome/browser/resource_coordinator/tab_manager.h
-@@ -207,6 +207,7 @@ class TabManager : public LifecycleUnitObserver,
-       base::TimeDelta::FromMinutes(10);
+@@ -202,6 +202,7 @@ class TabManager : public LifecycleUnitObserver,
+   const TabLoadTracker& tab_load_tracker() const { return tab_load_tracker_; }
  
   private:
 +  friend class GuestTabManager;
@@ -868,10 +868,10 @@ index 0903a45209399ebe0de9eb0397d0fbd601faa2b1..3f4d4100bd23b7920e9f97e35ac29ae9
  
  static_library("test_support") {
 diff --git a/chrome/renderer/chrome_content_renderer_client.cc b/chrome/renderer/chrome_content_renderer_client.cc
-index bf116080e0955b3a21b2118f37fbb28524e6acf5..b020e8619841f0866b47c9973b8fc99774f97248 100644
+index 1cd2e64b9eb9858e40f7a5914edfd162fc4dcb58..759bfb6a90817f5d235aa449c4b881b47b0a1310 100644
 --- a/chrome/renderer/chrome_content_renderer_client.cc
 +++ b/chrome/renderer/chrome_content_renderer_client.cc
-@@ -1485,6 +1485,7 @@ ChromeContentRendererClient::CreateBrowserPluginDelegate(
+@@ -1508,6 +1508,7 @@ ChromeContentRendererClient::CreateBrowserPluginDelegate(
  #endif
  }
  
@@ -879,7 +879,7 @@ index bf116080e0955b3a21b2118f37fbb28524e6acf5..b020e8619841f0866b47c9973b8fc997
  void ChromeContentRendererClient::RecordRappor(const std::string& metric,
                                                 const std::string& sample) {
    if (!rappor_recorder_) {
-@@ -1502,6 +1503,7 @@ void ChromeContentRendererClient::RecordRapporURL(const std::string& metric,
+@@ -1525,6 +1526,7 @@ void ChromeContentRendererClient::RecordRapporURL(const std::string& metric,
    }
    rappor_recorder_->RecordRapporURL(metric, url);
  }
@@ -888,10 +888,10 @@ index bf116080e0955b3a21b2118f37fbb28524e6acf5..b020e8619841f0866b47c9973b8fc997
  void ChromeContentRendererClient::AddImageContextMenuProperties(
      const WebURLResponse& response,
 diff --git a/chrome/renderer/chrome_content_renderer_client.h b/chrome/renderer/chrome_content_renderer_client.h
-index 95f7101e8b202aee47fe87311d59791e6365a6c1..360f2caca504250885a735091191dacc1566812f 100644
+index 5f9de171e4ec238bc8fef097e2b2ed896f3f72a8..f76f92ae6ff554e3f7ed780c8154b97ec156b8fb 100644
 --- a/chrome/renderer/chrome_content_renderer_client.h
 +++ b/chrome/renderer/chrome_content_renderer_client.h
-@@ -193,9 +193,9 @@ class ChromeContentRendererClient
+@@ -198,9 +198,9 @@ class ChromeContentRendererClient
        const content::WebPluginInfo& info,
        const std::string& mime_type,
        const GURL& original_url) override;
@@ -1224,10 +1224,10 @@ index bd0ba311df28f87bf464175e5b2eb3e926c3fa83..e6c06ede9c5e77eb0769fc308388a117
        rev_checking_required_local_anchors_.GetValue();
    config->sha1_local_anchors_enabled = sha1_local_anchors_enabled_.GetValue();
 diff --git a/content/app/content_main_runner.cc b/content/app/content_main_runner.cc
-index a6b08d73c5a60dcd2023b15c8b87c60219017cc5..3ada0521724bb7a4bfae3ed1e47afec607e6b269 100644
+index d1e6e7d28d46a4543079482d0eab6e6b9a305d70..957c5545b9fc127a5d8b6ffdab5cb1dc444b2782 100644
 --- a/content/app/content_main_runner.cc
 +++ b/content/app/content_main_runner.cc
-@@ -630,7 +630,7 @@ class ContentMainRunnerImpl : public ContentMainRunner {
+@@ -836,7 +836,7 @@ class ContentMainRunnerImpl : public ContentMainRunner {
  
      InitializeV8IfNeeded(command_line, process_type);
  
@@ -1236,7 +1236,7 @@ index a6b08d73c5a60dcd2023b15c8b87c60219017cc5..3ada0521724bb7a4bfae3ed1e47afec6
  #if defined(OS_WIN)
      bool should_enable_stack_dump = !process_type.empty();
  #else
-@@ -646,7 +646,7 @@ class ContentMainRunnerImpl : public ContentMainRunner {
+@@ -852,7 +852,7 @@ class ContentMainRunnerImpl : public ContentMainRunner {
              service_manager::switches::kDisableInProcessStackTraces)) {
        base::debug::EnableInProcessStackDumping();
      }
@@ -1285,10 +1285,10 @@ index 71b3c5906b61728dfad31bd743fb9f9c6c214c68..66b6951c21a06c2313ac5e7080741b97
  
  @end
 diff --git a/content/browser/renderer_host/render_widget_host_view_aura.cc b/content/browser/renderer_host/render_widget_host_view_aura.cc
-index c64d6031e926c2c28db81fd25093db11c2243ced..842d09a16c51a1784d2168150540db84fe19c2b1 100644
+index 867b83e3be2f5153d43f4cf2f8367906974a1e9d..0a790f3c93edcd99d0ef5171fe54d6211cf17a38 100644
 --- a/content/browser/renderer_host/render_widget_host_view_aura.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_aura.cc
-@@ -1597,8 +1597,23 @@ bool RenderWidgetHostViewAura::TransformPointToLocalCoordSpace(
+@@ -1598,8 +1598,23 @@ bool RenderWidgetHostViewAura::TransformPointToLocalCoordSpace(
        !delegated_frame_host_->TransformPointToLocalCoordSpace(
            point_in_pixels, original_surface, transformed_point))
      return false;
@@ -1315,10 +1315,10 @@ index c64d6031e926c2c28db81fd25093db11c2243ced..842d09a16c51a1784d2168150540db84
  }
  
 diff --git a/content/browser/renderer_host/render_widget_host_view_cocoa.mm b/content/browser/renderer_host/render_widget_host_view_cocoa.mm
-index 40a825387f5e768fb1cba683385cb59123aac183..9e79d0ccb254c35e1d43985d71eb9bbe7c3affcc 100644
+index dde32c7d6616d212d8606d6a2be5d9dd2158d4e9..a0f1faeba2543fa44792d01bcfc695c790434b9b 100644
 --- a/content/browser/renderer_host/render_widget_host_view_cocoa.mm
 +++ b/content/browser/renderer_host/render_widget_host_view_cocoa.mm
-@@ -128,6 +128,12 @@ void ExtractUnderlines(NSAttributedString* string,
+@@ -100,6 +100,12 @@ void ExtractUnderlines(NSAttributedString* string,
  
  }  // namespace
  
@@ -1331,7 +1331,7 @@ index 40a825387f5e768fb1cba683385cb59123aac183..9e79d0ccb254c35e1d43985d71eb9bbe
  // These are not documented, so use only after checking -respondsToSelector:.
  @interface NSApplication (UndocumentedSpeechMethods)
  - (void)speakString:(NSString*)string;
-@@ -290,7 +296,14 @@ void ExtractUnderlines(NSAttributedString* string,
+@@ -258,7 +264,14 @@ void ExtractUnderlines(NSAttributedString* string,
  }
  
  - (BOOL)acceptsFirstMouse:(NSEvent*)theEvent {
@@ -1346,7 +1346,7 @@ index 40a825387f5e768fb1cba683385cb59123aac183..9e79d0ccb254c35e1d43985d71eb9bbe
  }
  
  - (void)setCloseOnDeactivate:(BOOL)b {
-@@ -542,8 +555,10 @@ void ExtractUnderlines(NSAttributedString* string,
+@@ -510,8 +523,10 @@ void ExtractUnderlines(NSAttributedString* string,
    if (EventIsReservedBySystem(theEvent))
      return;
  
@@ -1357,22 +1357,31 @@ index 40a825387f5e768fb1cba683385cb59123aac183..9e79d0ccb254c35e1d43985d71eb9bbe
  
    if (eventType == NSFlagsChanged) {
      // Ignore NSFlagsChanged events from the NumLock and Fn keys as
-@@ -587,6 +602,10 @@ void ExtractUnderlines(NSAttributedString* string,
-   }
+@@ -550,11 +565,15 @@ void ExtractUnderlines(NSAttributedString* string,
+   // function call.
+   client_->OnNSViewBeginKeyboardEvent();
  
-   bool shouldAutohideCursor =
+-  ui::TextInputType textInputType = ui::TEXT_INPUT_TYPE_NONE;
++  ui::TextInputType textInputType = renderWidgetHostView_->GetTextInputType();
+   client_->OnNSViewSyncGetTextInputType(&textInputType);
+-  bool shouldAutohideCursor = textInputType != ui::TEXT_INPUT_TYPE_NONE &&
+-                              eventType == NSKeyDown &&
+-                              !(modifierFlags & NSCommandKeyMask);
++  bool shouldAutohideCursor =
 +#ifndef MUON_CHROMIUM_BUILD
 +      !([event.window respondsToSelector:@selector(disableAutoHideCursor)] &&
 +        [event.window disableAutoHideCursor]) &&
 +#endif  // MUON_CHROMIUM_BUILD
-       renderWidgetHostView_->GetTextInputType() != ui::TEXT_INPUT_TYPE_NONE &&
-       eventType == NSKeyDown && !(modifierFlags & NSCommandKeyMask);
++      textInputType != ui::TEXT_INPUT_TYPE_NONE && eventType == NSKeyDown &&
++      !(modifierFlags & NSCommandKeyMask);
  
+   // We only handle key down events and just simply forward other events.
+   if (eventType != NSKeyDown) {
 diff --git a/content/browser/renderer_host/render_widget_host_view_mac.mm b/content/browser/renderer_host/render_widget_host_view_mac.mm
-index f071d2434192eeae385d4f7f09b30d2ec33a1086..57257d2dcd6a2d6d186c9ef4ac53eefbb4cb5f67 100644
+index 4c77b018ef28163460b388860a6c818f0b0869bf..d991d459ec7c65a9a1613d749c8106a4dba45f9a 100644
 --- a/content/browser/renderer_host/render_widget_host_view_mac.mm
 +++ b/content/browser/renderer_host/render_widget_host_view_mac.mm
-@@ -1105,6 +1105,10 @@ void RenderWidgetHostViewMac::SetActive(bool active) {
+@@ -1124,6 +1124,10 @@ void RenderWidgetHostViewMac::SetActive(bool active) {
    if (host()) {
      host()->SetActive(active);
      if (active) {
@@ -1421,10 +1430,10 @@ index 9e0e5b96b8e38a6c29e601d091941dad28eec900..fe160824c9d1ee3ac0cd4148abd0da0e
  
  void RenderWidgetTargeter::ViewWillBeDestroyed(RenderWidgetHostViewBase* view) {
 diff --git a/content/browser/web_contents/web_contents_impl.cc b/content/browser/web_contents/web_contents_impl.cc
-index d4680a81755677af7a65497307b4027f3e19be0d..cd2152f2e246df07c4aab86f5dae8061158cbc7b 100644
+index a45b0e73714b9bedd848c7181f6a1d31aeb4a41b..f9fd6f45cefd8329f97c9e4306056404e6147d21 100644
 --- a/content/browser/web_contents/web_contents_impl.cc
 +++ b/content/browser/web_contents/web_contents_impl.cc
-@@ -1746,8 +1746,9 @@ void WebContentsImpl::Init(const WebContents::CreateParams& params) {
+@@ -1747,8 +1747,9 @@ void WebContentsImpl::Init(const WebContents::CreateParams& params) {
    // This is set before initializing the render manager since
    // RenderFrameHostManager::Init calls back into us via its delegate to ask if
    // it should be hidden.
@@ -1436,7 +1445,7 @@ index d4680a81755677af7a65497307b4027f3e19be0d..cd2152f2e246df07c4aab86f5dae8061
  
    // The routing ids must either all be set or all be unset.
    DCHECK((params.routing_id == MSG_ROUTING_NONE &&
-@@ -2342,7 +2343,8 @@ void WebContentsImpl::CreateNewWindow(
+@@ -2343,7 +2344,8 @@ void WebContentsImpl::CreateNewWindow(
    DCHECK(!params.opener_suppressed || render_view_route_id == MSG_ROUTING_NONE);
  
    scoped_refptr<SiteInstance> site_instance =
@@ -1625,7 +1634,7 @@ index 122bd3cfed8e127d4b0194451601369ae5902a36..e1661fc1b9902a973188165f971b7bbd
  // static
  int WebViewGuest::GetOrGenerateRulesRegistryID(
 diff --git a/extensions/common/BUILD.gn b/extensions/common/BUILD.gn
-index ed05c37bb0be8ab3d45e3353efde131c14276dc0..ba09b3b8eefd5a4ff091e567458c8fb973a81284 100644
+index b3559030e96b0b1e740ab8272061608d6f8ca4b3..200cffddfd496bafc453380697b72ac19fa2de66 100644
 --- a/extensions/common/BUILD.gn
 +++ b/extensions/common/BUILD.gn
 @@ -313,6 +313,7 @@ if (enable_extensions) {
@@ -1727,7 +1736,7 @@ index d985c0df7a9cb9543003ac32751f3fc80633248a..02bd6daf7e48de8345ce3be506e02110
  
    proto.attachedCallback = function() {
 diff --git a/media/base/media_switches.cc b/media/base/media_switches.cc
-index 48bb68ca34b1a048ec5aaa1bdf73309fb44e8ae3..60e0911d57947b742855d51c68f695336da0707a 100644
+index 5e486d356321b0454dce629a15e50a5a4f0b723c..68f8bc97106fcb05eef6bd4e43f05d704c72a3af 100644
 --- a/media/base/media_switches.cc
 +++ b/media/base/media_switches.cc
 @@ -347,7 +347,7 @@ std::string GetEffectiveAutoplayPolicy(const base::CommandLine& command_line) {
@@ -1922,10 +1931,10 @@ index 715c533a2756506cc3151739fe458efd2dc5323d..30608c6852d0845566f2a05d620f6c86
            database_->SkipReportUpload(
                report.uuid, Metrics::CrashSkippedReason::kUploadThrottled);
 diff --git a/ui/views/controls/menu/menu_controller.cc b/ui/views/controls/menu/menu_controller.cc
-index 83a1a0fc122efc76793fcda269d0fdd57aee10a3..0216723f7156db50c81ac2d0a952a2424fb963d2 100644
+index 46713d7170a66e38c2ecb21b7b7d914c9dcac872..758f3aa16efea24e9f00af8e1c4e3f34b60a776f 100644
 --- a/ui/views/controls/menu/menu_controller.cc
 +++ b/ui/views/controls/menu/menu_controller.cc
-@@ -617,6 +617,7 @@ bool MenuController::OnMouseDragged(SubmenuView* source,
+@@ -616,6 +616,7 @@ bool MenuController::OnMouseDragged(SubmenuView* source,
      return true;
    }
    MenuItemView* mouse_menu = NULL;
@@ -1933,7 +1942,7 @@ index 83a1a0fc122efc76793fcda269d0fdd57aee10a3..0216723f7156db50c81ac2d0a952a242
    if (part.type == MenuPart::MENU_ITEM) {
      // If there is no menu target, but a submenu target, then we are interacting
      // with an empty menu item within a submenu. These cannot become selection
-@@ -641,7 +642,10 @@ bool MenuController::OnMouseDragged(SubmenuView* source,
+@@ -640,7 +641,10 @@ bool MenuController::OnMouseDragged(SubmenuView* source,
        }
      }
    }
